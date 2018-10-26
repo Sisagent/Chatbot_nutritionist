@@ -87,6 +87,13 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         agent.add('ok' + pasto + tipopasto);
     }
 
+    function noIntolleranzeAllergie(agent){
+        const pasto = agent.parameters.pasto;
+        const intall = agent.parameters.intolleranzeAllergie;
+        agent.add("ecco per te un" + pasto + " sei intollerante a " + intall);
+
+    }
+
 
     // // Uncomment and edit to make your own intent handler
     // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
@@ -125,6 +132,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
 
     intentMap.set('prova', provadue);
+    intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

@@ -22,10 +22,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         agent.add(`I'm sorry, can you try again?`);
     }
 
-    function provaWebhook(agent){
-        agent.add('piacere ospite giurato');
-    }
-
     //match with intent 2.1 - consiglio_attivita_fisica
     function attivitaFisica(agent){
         
@@ -85,6 +81,12 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             }
     }
 
+    function provadue(agent){
+        const pasto = agent.parameters.pasto;
+        const tipopasto = agent.parameters.tipoPasto;
+        agent.add('ok' + pasto + tipopasto);
+    }
+
 
     // // Uncomment and edit to make your own intent handler
     // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
@@ -121,6 +123,9 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('Default Fallback Intent', fallback);
     intentMap.set('2.1 consiglio_attivita_fisica - custom',attivitaFisica );
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
+
+    intentMap.set('prova', provadue);
+
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);
     agent.handleRequest(intentMap);

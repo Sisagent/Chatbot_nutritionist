@@ -94,6 +94,62 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     }
 
+    function consiglioGrasso(agent){
+
+        const zona1 = agent.parameters.zoneCorpo;
+        const zona2 = agent.parameters.zoneCorpo1;
+
+        switch(zona1){
+
+            case 'cosce' || 'gambe' ||'quadricipiti' || 'glutei' || 'natiche':
+                agent.add('In generale, il grasso localizzato in eccesso non è un problema risolvibile soltanto con una dieta'+ 
+                'e in breve termine. Per tale motivo il primo consiglio è quello di rivolgersi ad un esperto per un programma dettagliato.'+ 
+                'Tuttavia ci sono alimenti che vanno preferiti ed altri fortemente sconsigliati. ' + 'Vediamone alcuni: prediligere in generale cibi integrali a zuccheri e grassi saturi.' + 
+                'Altri alimenti consigliati sono la frutta, le verdure,'+ 
+                'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
+                
+                agent.add('per le gambe e i glutei ti consiglio di approfondire https://www.my-personaltrainer.it/allenamento/allenamento-femminile.html ');
+                break;
+            
+            case 'braccia' || 'braccio' || 'bicipite' || 'bicipiti' || 'tricipite' || 'tricipiti':
+                agent.add('In generale, il grasso localizzato in eccesso non è un problema risolvibile soltanto con una dieta'+ 
+                'e in breve termine. Per tale motivo il primo consiglio è quello di rivolgersi ad un esperto per un programma dettagliato.'+ 
+                'Tuttavia ci sono alimenti che vanno preferiti ed altri fortemente sconsigliati. ' + 'Vediamone alcuni: prediligere in generale cibi integrali a zuccheri e grassi saturi.' + 
+                'Altri alimenti consigliati sono la frutta, le verdure,'+ 
+                'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
+
+                agent.add('per il grasso in eccesso sulle braccia ti consiglio https://www.my-personaltrainer.it/allenamento-definizione.html ');
+            break;
+
+            case 'addominali' || 'addominale' || 'addome' || 'pancia' || 'fianchi' || 'ventre':
+                agent.add('In generale, il grasso localizzato in eccesso non è un problema risolvibile soltanto con una dieta'+ 
+                'e in breve termine. Per tale motivo il primo consiglio è quello di rivolgersi ad un esperto per un programma dettagliato.'+ 
+                'Tuttavia ci sono alimenti che vanno preferiti ed altri fortemente sconsigliati. ' + 'Vediamone alcuni: prediligere in generale cibi integrali a zuccheri e grassi saturi.' + 
+                'Altri alimenti consigliati sono la frutta, le verdure,'+ 
+                'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
+
+                agent.add('Per il grasso addominale si consigliano esercizi mirati come crunch. Per approndire https://www.my-personaltrainer.it/alimentazione/dimagrire-la-pancia.html');
+                break;
+            
+            default:
+                agent.add('Non credo di aver capito, puoi riformulare la domanda?');
+            
+
+
+
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
 
     // // Uncomment and edit to make your own intent handler
     // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
@@ -133,6 +189,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     intentMap.set('prova', provadue);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
+    intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

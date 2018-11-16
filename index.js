@@ -94,6 +94,39 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     }
 
+    function consiglioDieta(agent){
+
+        const tipodieta = agent.parameters.dieteAlternative;
+
+        let card = new Card('Hai scelto la dieta'+' ' + tipodieta);     //inizializza direttamente il costruttore col titolo
+        card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');     //setta immagine. Deve essere i link diretto al png o jpg
+        card.setText('con questa dieta dimagrirai molto 💁');                           //setta testo della card e supporta le emoji
+        
+        
+        /*const card = new Card({
+            title: 'Hai scelto la dieta' + ''+ tipodieta,
+            text: 'Dieta generica per dimagrire',
+            imageUri: 'https://ibb.co/g77fVL',
+            buttonText: Bottone,
+            buttonUrl: 'https://assistant.google.com/',
+            platform: 'FACEBOOK'
+            });*/
+
+        agent.add(card);
+
+        
+        
+
+
+    }
+
+
+
+
+
+
+
+
     function consiglioGrasso(agent){
 
         const zona1 = agent.parameters.zoneCorpo;
@@ -190,6 +223,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('prova', provadue);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
+    intentMap.set('2.6 consiglio_dieta - custom', consiglioDieta);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

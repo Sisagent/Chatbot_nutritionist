@@ -223,7 +223,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('prova', provadue);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
-    intentMap.set('2.6 consiglio_dieta - custom', consiglioDieta);
+    intentMap.set('2.6 consiglio_dieta - generica', consiglioDieta);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

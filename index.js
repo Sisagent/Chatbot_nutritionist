@@ -97,10 +97,44 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     function consiglioDieta(agent){
 
         const tipodieta = agent.parameters.dieteAlternative;
+        let card = new Card('Hai scelto la dieta'+' ' + tipodieta);
+        let sceltavegana;  
+        
 
-        let card = new Card('Hai scelto la dieta'+' ' + tipodieta);     //inizializza direttamente il costruttore col titolo
-        card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');     //setta immagine. Deve essere i link diretto al png o jpg
-        card.setText('con questa dieta dimagrirai molto 💁');                           //setta testo della card e supporta le emoji
+        switch(tipodieta){
+
+            case 'generica':
+                card.setText('la dieta generica ti fornisce un ottimo rapporto tra calorie assunte e bruciate 💁'); 
+                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
+                agent.add(card);
+                break;
+        
+            case 'sportiva':
+                card.setText('la dieta sportiva è ottima per chi fa palestra e ha un aumento delle calorie bruciate rispetto alla norma 💁'); 
+                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
+                agent.add(card);
+                break;
+
+            case 'dimagrante':
+                card.setText('la dieta dimagrante è per chi vuole perdere peso e non ha tempo per esercizi fisici e palestra 💁'); 
+                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
+                agent.add(card);
+                break;
+            
+            case 'patologica':
+                card.setText('la dieta patologica è rivolta a chi ha particolari disturbi e vuole perdere peso 💁'); 
+                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
+                agent.add(card);
+                break;
+
+            
+            default: agent.add('credo di non aver capito il tipo di dieta, puoi ripetere?');
+        
+        }
+
+        //let card = new Card('Hai scelto la dieta'+' ' + tipodieta);                     //inizializza direttamente il costruttore col titolo
+        //card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');     //setta immagine. Deve essere i link diretto al png o jpg
+        //card.setText('con questa dieta dimagrirai molto 💁');                           //setta testo della card e supporta le emoji
         
         
         /*const card = new Card({
@@ -112,7 +146,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             platform: 'FACEBOOK'
             });*/
 
-        agent.add(card);
+
 
         
         

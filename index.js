@@ -96,39 +96,37 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     function consiglioDieta(agent){
 
-        const tipodieta = agent.parameters.dieteAlternative;
-        let card = new Card('Hai scelto la dieta'+' ' + tipodieta);
-        let sceltavegana;  
-        
+        const dietaScelta = agent.parameters.dieteAlternative;
+        let card = new Card('Hai scelto la dieta'+' ' + dietaScelta); 
+        //let cardg1 = new Card(); 
 
-        switch(tipodieta){
+        switch(dietaScelta){
 
-            case 'generica':
-                card.setText('la dieta generica ti fornisce un ottimo rapporto tra calorie assunte e bruciate 💁'); 
-                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
+            case 'mantenimento':
+                card.setText('Dieta di mantenimento'); 
+                card.setImage('https://ibb.co/kQaZaL');
+               
+                //cardg1.setText('Giorno 1: '); 
+                //cardg1.setImage('https://ibb.co/jbonvL');
+                
                 agent.add(card);
+                //agent.add(cardg1);
+
                 break;
         
-            case 'sportiva':
+            case 'mediterranea':
                 card.setText('la dieta sportiva è ottima per chi fa palestra e ha un aumento delle calorie bruciate rispetto alla norma 💁'); 
                 card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
                 agent.add(card);
                 break;
 
-            case 'dimagrante':
+            case 'caloriemillesei':
                 card.setText('la dieta dimagrante è per chi vuole perdere peso e non ha tempo per esercizi fisici e palestra 💁'); 
                 card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
                 agent.add(card);
                 break;
             
-            case 'patologica':
-                card.setText('la dieta patologica è rivolta a chi ha particolari disturbi e vuole perdere peso 💁'); 
-                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
-                agent.add(card);
-                break;
-
-            
-            default: agent.add('credo di non aver capito il tipo di dieta, puoi ripetere?');
+            default: agent.add('credo di non aver capito la tua scelta, potresti ripetere?');
         
         }
 
@@ -257,7 +255,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('prova', provadue);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
-    intentMap.set('2.6 consiglio_dieta - generica', consiglioDieta);
+    intentMap.set('2.6 consiglio_dieta - generica - custom', consiglioDieta);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

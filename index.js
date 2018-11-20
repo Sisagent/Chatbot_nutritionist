@@ -95,14 +95,30 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                     break;
 
                 case 'cena dietetica':
-                    
-                    break;
-                case 'spuntino dietetico' || 'snack dietetico':
-                    
+                    agent.add('In una dieta proteica dimagrante potresti mangiare per cena un petto di pollo con contorno di zucchine, oppure un filetto di tonno'+
+                    ' alla piastra o una spigola al forno.');
+                    agent.add('Per approfondire ti consiglio di consultare il link: https://www.my-personaltrainer.it/alimentazione/esempio-dieta-proteica-per-dimagrire.html');
+                     card.setTitle('Petto di pollo e zucchine'); 
+                     card.setImage('https://image.ibb.co/eoYxLL/cena1.jpg');
+                     agent.add(card);
+                     card2.setTitle('Filetto di pesce'); 
+                     card2.setImage('https://image.ibb.co/f8oa70/cena2.jpg');
+                     agent.add(card2);
                     break;
 
-                case 'spuntino':
-
+                case 'spuntino dietetico' || 'snack dietetico'|| 'spuntino':
+                    agent.add('Esempi di spuntini veloci e salutari possono essere: yogurt al naturale parzialmente scremato, un frutto e qualche fetta di '+
+                    'affettato magro, un frutto e una fetta di formaggio magro, un frutto e un po’ di frutta secca (noci o mandorle).');
+                    agent.add('Per approfondire ti consiglio di consultare il link: https://www.my-personaltrainer.it/bar-spuntini.htm');
+                    card.setTitle('Yogurt'); 
+                    card.setImage('https://preview.ibb.co/iq4jZf/spuntdie1.jpg');
+                    agent.add(card);
+                    card2.setTitle('Frutta e frutta secca'); 
+                    card2.setImage('https://image.ibb.co/hZrWEf/spudie3.jpg');
+                    agent.add(card2);
+                    card3.setTitle('Frutta e formaggio'); 
+                    card3.setImage('https://preview.ibb.co/kNzU0L/spundie2.jpg');
+                    agent.add(card3);
                     break;
 
                 default:

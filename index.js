@@ -8,6 +8,18 @@ const {Card, Suggestion} = require('dialogflow-fulfillment');
 
 process.env.DEBUG = 'dialogflow:debug'; // enables lib debugging statements
 
+//to use Firestore database
+var admin = require("firebase-admin");
+var serviceAccount = require('./mr-diet-f2c65-firebase-adminsdk-7x165-695698fdbe');
+
+admin.initializeApp({
+credential: admin.credential.cert(serviceAccount),
+databaseURL: "https://mr-diet-f2c65.firebaseio.com"
+});
+
+var db = admin.firestore();
+//-------------------------
+
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
     const agent = new WebhookClient({ request, response });
     console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
@@ -26,25 +38,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     function attivitaFisica(agent){
         
         const intensita = agent.parameters.intensitaAllenamento;
-        const contesto = agent.getContext('21-consiglio_attivita_fisica-followup');
-        const allenamento = contesto.parameters.allenamento;
-
-        if(intensita == 'leggero' || intensita == 'leggera'){
-            
-            agent.add('bene. Ti consiglio di mangiare un paio d’ore prima dell’inizio dell’allenamento'+ 
-            'cibi con prevalenza di carboidrati(anche un po di pasta o pane va bene).'+ 
-            'Per quanto riguarda il post allenamento va bene della frutta o un bicchiere di latte,' +  
-            'al limite se si ha molta fame andrebbe bene un piccolo panino, senza esagerare. In ogni caso ti consiglio di consultare questo link'
-            +'per maggiori informazioni:  https://www.fondazioneveronesi.it/magazine/articoli/lesperto-risponde/cosa-mangiare-prima-di-fare-sport ');
-        }
-        else{
-
-            agent.add('Bene. Innanzitutto ricorda di bere regolarmente anche prima dell’inizio dell’allenamento.' +
-            'Un pasto completo va consumato almeno 2-3 ore prima dell’allenamento, molto importante è la presenza di proteine.'+ 
-            'Va bene anche uno snack ricco di carboidrati 10 minuti prima dell’inizio dell’allenamento.'+ 
-            'Per maggiori informazioni puoi consultare la seguente fonte https://www.runtastic.com/blog/it/sport-cosa-mangiare-prima-e-dopo-un-allenamento/');
-            agent.add ('buon allenamento');
-
+        if (intensita == 'leggero'){
+            agent.add('bene. Ti consiglio di mangiare un paio d’ore prima dell’inizio dell’allenamento cibi con prevalenza di carboidrati(anche un po di pasta o'+
+            ' pane va bene). Per quanto riguarda il post allenamento va bene della frutta o un bicchiere di latte,  al limite se si ha molta fame andrebbe bene un '+
+            'piccolo panino, senza esagerare. In ogni caso ti consiglio di consultare questo link per maggiori informazioni: '+
+            ' https://www.fondazioneveronesi.it/magazine/articoli/lesperto-risponde/cosa-mangiare-prima-di-fare-sport ');
+        } else{
+            agent.add('Bene. Innazitutto ricorda di bere regolarmente anche prima dell’inizio dell’allenamento. Un pasto completo va consumato almeno 2-3 ore prima '+
+            'dell’allenamento, molto importante è la presenza di proteine. Va bene anche uno snack ricco di carboidrati 10 minuti prima dell’inizio dell’allenamento.'+
+            ' Per maggiori informazioni puoi consultare la seguente fonte https://www.runtastic.com/blog/it/sport-cosa-mangiare-prima-e-dopo-un-allenamento/');
         }
 
     }
@@ -52,28 +54,55 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     //match with intent 2.2 consiglio_pasto_dietetico
     function pastoDietetico (agent){
             const pasto = agent.parameters.pastoDietetico;
+            let card = new Card('scelta 1'); 
+            let card2= new Card('scelta 2');
+            let card3= new Card('scelta 3');
+            let card4= new Card('scelta 4');
+
             switch (pasto){
                 case 'colazione dietetica':
-                    agent.add ('Per una prima colazione completa e leggera sono ottimi i carboidrati forniti'+
-                    'dalla frutta e dai frullati. Carboidrati complessi arriveranno dai fiocchi d’avena, muesli non zuccherati, '+
-                    'gallette di riso e fette biscottate. È preferibile un leggero latte scremato o parzialmente scremato, senza dimenticare il latte di soia. '+
-                    'Per approfondire  https://www.my-personaltrainer.it/alimentazione/colazione-dietetica.html ');
-                    break;
+                    agent.add ('Per una colazione dietetica per la linea posso consigliarti yogurt addensato magro con fiocchi di cereali misti, spremuta di'+
+                    ' arancia e pompelmo con toast integrale al prosciutto crudo, macedonia di frutta e biscotti secchi, fiocchi di latte light con gallette'+
+                     'integrali, latte parzialmente scremato con cacao amaro e cereali aggregati con frutta secca.  ');
+                     agent.add('Per approfondire ti consiglio di consultare il link: https://www.my-personaltrainer.it/alimentazione/colazione-dietetica.html');
+                     card.setTitle('Cereali'); 
+                     card.setImage('https://image.ibb.co/idHyAL/colazdiet.jpg');
+                     agent.add(card);
+                     card2.setTitle('Cereali e latte'); 
+                     card2.setImage('https://image.ibb.co/mzfh4f/colaz2.jpg');
+                     agent.add(card2);
+                     card3.setTitle('Spremuta di arance'); 
+                     card3.setImage('https://image.ibb.co/cU2Rx0/colaz3.jpg');
+                     agent.add(card3);
+                     card4.setTitle('Toast'); 
+                     card4.setImage('https://image.ibb.co/hPo5qL/colaz4.jpg');
+                     agent.add(card4);
+                     break;
+
                 case 'pranzo dietetico':
-                    agent.add('Bene, anzitutto cereali integrali , aiutano a placare il senso di fame per più tempo. Quindi verdure, legumi e quinoa, che danno'+
-                    'il giusto apporto proteico e non contengono grassi. Per approfondire ti consiglio un articolo di un esperto'+
-                    ' https://www.vanityfair.it/vanityfood/ricevere/15/06/11/10-piatti-light-da-mangiare-in-pausa-pranzo-per-dimagrire');
+                    agent.add('Una dieta proteica per dimagrire prevede a pranzo pasti come pasta al pomodoro (90 g di pasta), oppure un risotto alla rucola (80 g '+
+                    'di riso) o un piatto di patate e fagioli lessi');
+                    agent.add('Per approfondire ti consiglio di consultare il link: https://www.my-personaltrainer.it/alimentazione/esempio-dieta-proteica-per-dimagrire.html');
+                     card.setTitle('Pasta col pomodoro'); 
+                     card.setImage('https://image.ibb.co/mS2C4f/pranzo1.jpg');
+                     agent.add(card);
+                     card2.setTitle('Risotto alla rucola'); 
+                     card2.setImage('https://image.ibb.co/ckYKjf/pranzo2.jpg');
+                     agent.add(card2);
+                     card3.setTitle('Patate e fagioli lessi'); 
+                     card3.setImage('https://image.ibb.co/f6FRVL/pranzo3.jpg');
+                     agent.add(card3);
                     break;
+
                 case 'cena dietetica':
-                    agent.add('Per una cena dietetica scegli innanzitutto la cottura giusta:  no quindi alla frittura, sì alle cottura a vapore, al cartoccio '+
-                    'o al forno! Gli alimenti preferibili sono quelli ricchi di fibre e proteine, pochi carboidrati. Ricorda che un consiglio di un esperto'+
-                    ' è sempre la prima scelta. Altre informazioni le trovi anche qui https://www.alfemminile.com/dieta-dimagrante/cena-dietetica-s2866728.html' );
+                    
                     break;
                 case 'spuntino dietetico' || 'snack dietetico':
-                    agent.add('Ottimo! Ci sono diversi alimenti che puoi usare come idee snack! Per esempio potresti fare uno spuntino con carote, 1-2 uova'+
-                     'sode con olio sale e pepe, 1 toast con petto di tacchino, formaggio spalmabile e sottaceti come salato. Se preferisci uno spuntino dolce'+
-                     ' puoi pensare a 1 yogurt, 1 fetta di melone o 1 barretta ai cereali. Se vuoi altri consigli consulta'+
-                     ' https://www.donnaclick.it/salute-donna/dieta/9563/spuntini-dietetici-23-idee-anti-fame-per-tutta-la-giornata/');
+                    
+                    break;
+
+                case 'spuntino':
+
                     break;
 
                 default:
@@ -81,54 +110,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             }
     }
 
-    function provadue(agent){
-        const pasto = agent.parameters.pasto;
-        const tipopasto = agent.parameters.tipoPasto;
-        agent.add('ok' + pasto + tipopasto);
-    }
 
     function noIntolleranzeAllergie(agent){
         const pasto = agent.parameters.pasto;
-        const intall = agent.parameters.intolleranzeAllergie;
-        agent.add("ecco per te un" + pasto + " sei intollerante a " + intall);
+        const intoll = agent.parameters.intolleranzeAllergie;
+        agent.add("ecco per te un" + pasto + " sei intollerante a " + intoll);
 
     }
 
-    function consiglioDieta(agent){
-
-        const dietaScelta = agent.parameters.dieteAlternative;
-        let card = new Card('Hai scelto la dieta'+' ' + dietaScelta); 
-        //let cardg1 = new Card(); 
-
-        switch(dietaScelta){
-
-            case 'mantenimento':
-                card.setText('Dieta di mantenimento'); 
-                card.setImage('https://ibb.co/kQaZaL');
-               
-                //cardg1.setText('Giorno 1: '); 
-                //cardg1.setImage('https://ibb.co/jbonvL');
-                
-                agent.add(card);
-                //agent.add(cardg1);
-
-                break;
-        
-            case 'mediterranea':
-                card.setText('la dieta sportiva è ottima per chi fa palestra e ha un aumento delle calorie bruciate rispetto alla norma 💁'); 
-                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
-                agent.add(card);
-                break;
-
-            case 'caloriemillesei':
-                card.setText('la dieta dimagrante è per chi vuole perdere peso e non ha tempo per esercizi fisici e palestra 💁'); 
-                card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');
-                agent.add(card);
-                break;
-            
-            default: agent.add('credo di non aver capito la tua scelta, potresti ripetere?');
-        
-        }
+    
+    //ESEMPIO DI CARD
 
         //let card = new Card('Hai scelto la dieta'+' ' + tipodieta);                     //inizializza direttamente il costruttore col titolo
         //card.setImage('https://image.ibb.co/mOT9Pf/photo-2018-11-15-19-08-04.jpg');     //setta immagine. Deve essere i link diretto al png o jpg
@@ -143,14 +134,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             buttonUrl: 'https://assistant.google.com/',
             platform: 'FACEBOOK'
             });*/
-
-
-
-        
-        
-
-
-    }
+   //end consiglioDieta
 
 
 
@@ -249,13 +233,10 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     let intentMap = new Map();
     intentMap.set('Default Welcome Intent', welcome);
     intentMap.set('Default Fallback Intent', fallback);
-    intentMap.set('2.1 consiglio_attivita_fisica - custom',attivitaFisica );
+    intentMap.set('2.1 consiglio_attivita_fisica - custom', attivitaFisica );
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
-
-    intentMap.set('prova', provadue);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
-    intentMap.set('2.6 consiglio_dieta - generica - custom', consiglioDieta);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

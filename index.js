@@ -222,7 +222,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
-    
+
 
 
 
@@ -235,14 +235,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     function dammiAlimento(agent){
         const carota = agent.parameters.provaAlim;
         var protCarota;
-        var prova = db.collection('alimenti').doc('tmy6t5QC9nX4pDZtBtPk');
+        var prova = db.collection('alimenti').doc('bWKa5ZerSeSJ2ogiYVTl');
          return prova.get()
           .then(doc => {
             if (!doc.exists) {
                 agent.add('documento inesistente');
               return console.log('No such document!');
             } else {
-                agent.add('ehi ecco la '+ doc.data().nome);
+                agent.add('le proteine sono '+ doc.data().nutrienti.proteine);
+                agent.add('le grassi sono '+ doc.data().nutrienti.grassi);
               return console.log('nome: ', doc.data().nome);
               
             }

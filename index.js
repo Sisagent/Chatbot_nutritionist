@@ -18,6 +18,8 @@ databaseURL: "https://mr-diet-f2c65.firebaseio.com"
 });
 
 var db = admin.firestore();
+const settings = {/* your settings... */ timestampsInSnapshots: true };
+db.settings(settings);
 //-------------------------
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, response) => {
@@ -216,6 +218,44 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    function dammiAlimento(agent){
+        const carota = agent.parameters.provaAlim;
+        var protCarota;
+        var prova = db.collection('alimenti').doc('tmy6t5QC9nX4pDZtBtPk');
+         return prova.get()
+          .then(doc => {
+            if (!doc.exists) {
+                agent.add('documento inesistente');
+              return console.log('No such document!');
+            } else {
+                agent.add('ehi ecco la '+ doc.data().nome);
+              return console.log('nome: ', doc.data().nome);
+              
+            }
+          })
+          .catch(err => {
+              agent.end('errore');
+            return console.log('Error getting document', err);
+          });
+   
+      }
+
+
+
     // // Uncomment and edit to make your own intent handler
     // // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
     // // below to get this function to be run when a Dialogflow intent is matched
@@ -253,6 +293,13 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
+
+
+
+
+
+
+    intentMap.set('provaFirestore', dammiAlimento);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

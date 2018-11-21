@@ -211,6 +211,72 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     }
 
+    function consiglioCrampi(agent){
+
+        let card = new Card('Per i crampi');
+        let card2 = new Card('Per i crampi');
+        let card3 = new Card('Per i crampi');
+        
+
+        var prova = db.collection('bevande').doc('WmQ65KyXQKyd0xyMZNgI');
+         return prova.get()
+          .then(doc => {
+            if (!doc.exists) {
+                agent.add('documento inesistente');
+              return console.log('No such document!');
+            } else {
+                agent.add('I crampi possono essere indice di svariate patologie ma solitamente per le categorie di persone come gli anziani,'+
+                ' le donne in stato di gravidanza, le mamme in allattamento e gli sportivi. Sono una chiara manifestazione di carenza di magnesio.' +
+                'Purtroppo l’agricoltura dei nostri giorni fa si che le verdure sulle nostre tavole siano sempre più povere di questo sale eccezionale.');
+                
+                agent.add('Per te che soffri di '+ doc.data().patologia + ' il consiglio principale '+
+                'è quello di bere ogni giorno almeno 2 litri d’acqua ricca di magnesio'+' con valori maggiori di '+ doc.data().magnesio + ' mg/l');
+                card.setImage(doc.data().img.url1);
+                card2.setImage(doc.data().img.url2);
+                card3.setImage(doc.data().img.url3);
+                agent.add(card);
+                agent.add(card2);
+                agent.add(card3);
+              return console.log('nome: ', doc.data().patologia);
+              
+            }
+          })
+          .catch(err => {
+              agent.end('errore');
+            return console.log('Error getting document', err);
+          });
+
+    }
+
+
+
+    function consiglioCalcoli(agent){
+
+
+        let card = new Card('Per saperne di più');
+        
+        var prova = db.collection('bevande').doc('MIrb27h75Zu1kw49to8M');
+         return prova.get()
+          .then(doc => {
+            if (!doc.exists) {
+                agent.add('documento inesistente');
+              return console.log('No such document!');
+            } else {
+                agent.add(' Per te che soffri di ' + doc.data().patologia + ' sono preferibili acque oligominerali' + 
+                ' o minimamente mineralizzate per limitare la quantità di sodio e Sali.'+
+               ' Il valore ideale di sodio non deve superare i '+ doc.data().sodio + 'mg/l');
+                
+                card.setText('https://www.my-personaltrainer.it/rimedi/calcoli-renali.html');
+                card.setImage(doc.data().img.url1);
+                agent.add(card);
+              return console.log('nome: ', doc.data().patologia);
+              
+            }
+          })
+          .catch(err => {
+              agent.end('errore');
+            return console.log('Error getting document', err);
+          });
 
 
 
@@ -218,7 +284,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
-
+    }
 
 
 
@@ -294,6 +360,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
+    intentMap.set('2.4 consiglio_idratazione - crampi', consiglioCrampi);
+    intentMap.set('2.4 consiglio_idratazione - calcoli', consiglioCalcoli );
 
 
 

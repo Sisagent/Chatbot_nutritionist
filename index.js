@@ -216,6 +216,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         let card = new Card('Per i crampi');
         let card2 = new Card('Per i crampi');
         let card3 = new Card('Per i crampi');
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
         
 
         var prova = db.collection('bevande').doc('WmQ65KyXQKyd0xyMZNgI');
@@ -237,6 +238,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 agent.add(card);
                 agent.add(card2);
                 agent.add(card3);
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
               return console.log('nome: ', doc.data().patologia);
               
             }
@@ -253,6 +262,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     function consiglioCalcoli(agent){
         let card = new Card('Per saperne di più');
         let card2 = new Card('Prodotti consigliati per i calcoli');
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
         
         var prova = db.collection('bevande').doc('MIrb27h75Zu1kw49to8M');
          return prova.get()
@@ -270,6 +280,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 card.setImage(doc.data().img.url2);
                 agent.add(card);
                 agent.add(card2);
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
               return console.log('nome: ', doc.data().patologia);
               
             }
@@ -288,6 +306,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         let card = new Card('Per saperne di più');
         let card2 = new Card('Per osteoporosi');
         let card3 = new Card('Per osteoporosi');
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
         
         var prova = db.collection('bevande').doc('lmc7Shlt8SgBWMJnUxXA');
          return prova.get()
@@ -307,6 +326,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 
                 agent.add(card2);
                 agent.add(card3);
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
               return console.log('nome: ', doc.data().patologia);
               
             }
@@ -321,6 +348,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     function consiglioNopatologie(agent){
         let card = new Card('Prodotti consigliati ');
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
         var prova = db.collection('bevande').doc('s9GRjmyssuIleFh80x0V');
         
         return prova.get()
@@ -337,6 +365,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 agent.add('Approfondisci qui: https://www.my-personaltrainer.it/idratazione.htm');
                 card.setImage(doc.data().img.url1);
                 agent.add(card);
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
+
               return console.log('nome: ', doc.data().patologia);
             }
           })

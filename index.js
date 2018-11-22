@@ -229,7 +229,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 ' le donne in stato di gravidanza, le mamme in allattamento e gli sportivi. Sono una chiara manifestazione di carenza di magnesio.' +
                 'Purtroppo l’agricoltura dei nostri giorni fa si che le verdure sulle nostre tavole siano sempre più povere di questo sale eccezionale.');
                 
-                agent.add('Per te che soffri di '+ doc.data().patologia + ' il consiglio principale '+
+                agent.add('Per chi soffre di '+ doc.data().patologia + ' il consiglio principale '+
                 'è quello di bere ogni giorno almeno 2 litri d’acqua ricca di magnesio'+' con valori maggiori di '+ doc.data().magnesio + ' mg/l');
                 card.setImage(doc.data().img.url1);
                 card2.setImage(doc.data().img.url2);
@@ -254,6 +254,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
         let card = new Card('Per saperne di più');
+        let card2 = new Card('Per i callcoli');
         
         var prova = db.collection('bevande').doc('MIrb27h75Zu1kw49to8M');
          return prova.get()
@@ -262,13 +263,52 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 agent.add('documento inesistente');
               return console.log('No such document!');
             } else {
-                agent.add(' Per te che soffri di ' + doc.data().patologia + ' sono preferibili acque oligominerali' + 
+                agent.add(' Per chi soffre di ' + doc.data().patologia + ' sono preferibili acque oligominerali' + 
                 ' o minimamente mineralizzate per limitare la quantità di sodio e Sali.'+
                ' Il valore ideale di sodio non deve superare i '+ doc.data().sodio + 'mg/l');
                 
                 card.setText('https://www.my-personaltrainer.it/rimedi/calcoli-renali.html');
-                card.setImage(doc.data().img.url1);
+                card2.setImage(doc.data().img.url1);
                 agent.add(card);
+                agent.add(card2);
+              return console.log('nome: ', doc.data().patologia);
+              
+            }
+          })
+          .catch(err => {
+              agent.end('errore');
+            return console.log('Error getting document', err);
+          });
+
+    }
+
+
+
+    function consiglioOsteoporosi(agent){
+
+
+        let card = new Card('Per saperne di più');
+        let card2 = new Card('Per osteoporosi');
+        let card3 = new Card('Per osteoporosi');
+        
+        var prova = db.collection('bevande').doc('lmc7Shlt8SgBWMJnUxXA');
+         return prova.get()
+          .then(doc => {
+            if (!doc.exists) {
+                agent.add('documento inesistente');
+              return console.log('No such document!');
+            } else {
+                agent.add(' Per chi soffre di ' + doc.data().patologia + ' sono consigliate acque ricche di calcio e povere di sodio.' + 
+                ' Alcune acque mediominerali e le stesse acque potabili ad alto contenuto in calcio contribuiscono in maniera non trascurabile ' + 
+                'alla copertura del fabbisogno quotidiano di questo prezioso minerale.'+ 
+                ' Come valore nutrizionale il livello di calcio in mg/lt deve essere preferibilmente pari o superiore a '+ doc.data().calcio);
+
+                card.setText('https://www.my-personaltrainer.it/dieta/dieta-osteoporosi.html');
+                card2.setImage(doc.data().img.url1);
+                card3.setImage(doc.data().img.url2);
+                agent.add(card);
+                agent.add(card2);
+                agent.add(card3);
               return console.log('nome: ', doc.data().patologia);
               
             }
@@ -279,20 +319,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
           });
 
 
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -359,9 +386,10 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('2.1 consiglio_attivita_fisica - custom', attivitaFisica );
     intentMap.set('2.2 consiglio_pasto_dietetico', pastoDietetico);
     intentMap.set('2.3 consiglio_intolleranze_allergie', noIntolleranzeAllergie);
-    intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
     intentMap.set('2.4 consiglio_idratazione - crampi', consiglioCrampi);
     intentMap.set('2.4 consiglio_idratazione - calcoli', consiglioCalcoli );
+    intentMap.set('2.4 consiglio_idratazione - osteoporosi', consiglioOsteoporosi);
+    intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
 
 
 

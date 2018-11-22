@@ -251,10 +251,8 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
     function consiglioCalcoli(agent){
-
-
         let card = new Card('Per saperne di più');
-        let card2 = new Card('Per i callcoli');
+        let card2 = new Card('Prodotti consigliati per i calcoli');
         
         var prova = db.collection('bevande').doc('MIrb27h75Zu1kw49to8M');
          return prova.get()
@@ -267,8 +265,9 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 ' o minimamente mineralizzate per limitare la quantità di sodio e Sali.'+
                ' Il valore ideale di sodio non deve superare i '+ doc.data().sodio + 'mg/l');
                 
-                card.setText('https://www.my-personaltrainer.it/rimedi/calcoli-renali.html');
+                agent.add('Per saperne di più https://www.my-personaltrainer.it/rimedi/calcoli-renali.html');
                 card2.setImage(doc.data().img.url1);
+                card.setImage(doc.data().img.url2);
                 agent.add(card);
                 agent.add(card2);
               return console.log('nome: ', doc.data().patologia);
@@ -286,7 +285,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
     function consiglioOsteoporosi(agent){
 
-
         let card = new Card('Per saperne di più');
         let card2 = new Card('Per osteoporosi');
         let card3 = new Card('Per osteoporosi');
@@ -303,10 +301,10 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 'alla copertura del fabbisogno quotidiano di questo prezioso minerale.'+ 
                 ' Come valore nutrizionale il livello di calcio in mg/lt deve essere preferibilmente pari o superiore a '+ doc.data().calcio);
 
-                card.setText('https://www.my-personaltrainer.it/dieta/dieta-osteoporosi.html');
+                agent.add('Approfondisci: https://www.my-personaltrainer.it/dieta/dieta-osteoporosi.html');
                 card2.setImage(doc.data().img.url1);
                 card3.setImage(doc.data().img.url2);
-                agent.add(card);
+                
                 agent.add(card2);
                 agent.add(card3);
               return console.log('nome: ', doc.data().patologia);
@@ -319,6 +317,33 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
           });
 
 
+    }
+
+    function consiglioNopatologie(agent){
+        let card = new Card('Prodotti consigliati ');
+        var prova = db.collection('bevande').doc('s9GRjmyssuIleFh80x0V');
+        
+        return prova.get()
+          .then(doc => {
+            if (!doc.exists) {
+                agent.add('documento inesistente');
+              return console.log('No such document!');
+            } else {
+                agent.add('La bevanda ideale deve possedere diverse caratteristiche: innanzitutto deve '+
+                'essere facilmente assorbibile ma senza causare problemi gastrointestinali. Per essere rapidamente'+
+                ' assorbibile l\'acqua dev\'essere moderatamente refrigerata (circa 10°) e  deve contenere una '+
+                'minima quantità di carboidrati (5-8%) non superiore al 10%. ');
+
+                agent.add('Approfondisci qui: https://www.my-personaltrainer.it/idratazione.htm');
+                card.setImage(doc.data().img.url1);
+                agent.add(card);
+              return console.log('nome: ', doc.data().patologia);
+            }
+          })
+          .catch(err => {
+              agent.end('errore');
+            return console.log('Error getting document', err);
+          });
     }
 
 
@@ -389,8 +414,9 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     intentMap.set('2.4 consiglio_idratazione - crampi', consiglioCrampi);
     intentMap.set('2.4 consiglio_idratazione - calcoli', consiglioCalcoli );
     intentMap.set('2.4 consiglio_idratazione - osteoporosi', consiglioOsteoporosi);
+    intentMap.set('2.4 consiglio_idratazione - nopatologie', consiglioNopatologie);
     intentMap.set('2.5 consiglio_grasso_locale - custom', consiglioGrasso);
-
+    
 
 
 

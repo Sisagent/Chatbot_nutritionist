@@ -39,16 +39,33 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     //match with intent 2.1 - consiglio_attivita_fisica
     function attivitaFisica(agent){
         
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
         const intensita = agent.parameters.intensitaAllenamento;
         if (intensita == 'leggero'){
             agent.add('bene. Ti consiglio di mangiare un paio d’ore prima dell’inizio dell’allenamento cibi con prevalenza di carboidrati(anche un po di pasta o'+
             ' pane va bene). Per quanto riguarda il post allenamento va bene della frutta o un bicchiere di latte,  al limite se si ha molta fame andrebbe bene un '+
             'piccolo panino, senza esagerare. In ogni caso ti consiglio di consultare questo link per maggiori informazioni: '+
             ' https://www.fondazioneveronesi.it/magazine/articoli/lesperto-risponde/cosa-mangiare-prima-di-fare-sport ');
+            agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
         } else{
             agent.add('Bene. Innazitutto ricorda di bere regolarmente anche prima dell’inizio dell’allenamento. Un pasto completo va consumato almeno 2-3 ore prima '+
             'dell’allenamento, molto importante è la presenza di proteine. Va bene anche uno snack ricco di carboidrati 10 minuti prima dell’inizio dell’allenamento.'+
             ' Per maggiori informazioni puoi consultare la seguente fonte https://www.runtastic.com/blog/it/sport-cosa-mangiare-prima-e-dopo-un-allenamento/');
+            agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
         }
 
     }
@@ -60,6 +77,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             let card2= new Card('scelta 2');
             let card3= new Card('scelta 3');
             let card4= new Card('scelta 4');
+            let cardConsiglio = new Card('CONTATTA UN ESPERTO');
 
             switch (pasto){
                 case 'colazione dietetica':
@@ -79,6 +97,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                      card4.setTitle('Toast'); 
                      card4.setImage('https://image.ibb.co/hPo5qL/colaz4.jpg');
                      agent.add(card4);
+                     
+                     agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                     ' Consulta sempre il tuo medico di fiducia');
+                    cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                     });
+                    agent.add(cardConsiglio);
+                    agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
                      break;
 
                 case 'pranzo dietetico':
@@ -94,7 +121,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                      card3.setTitle('Patate e fagioli lessi'); 
                      card3.setImage('https://image.ibb.co/f6FRVL/pranzo3.jpg');
                      agent.add(card3);
-                    break;
+                    
+                     agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                     ' Consulta sempre il tuo medico di fiducia');
+                     cardConsiglio.setButton({
+                         text: 'Contatta',
+                         url: 'https://www.paginegialle.it/nutrizionista.htm'
+                     });
+                     agent.add(cardConsiglio);
+                     agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
+                     break;
 
                 case 'cena dietetica':
                     agent.add('In una dieta proteica dimagrante potresti mangiare per cena un petto di pollo con contorno di zucchine, oppure un filetto di tonno'+
@@ -106,7 +142,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                      card2.setTitle('Filetto di pesce'); 
                      card2.setImage('https://image.ibb.co/f8oa70/cena2.jpg');
                      agent.add(card2);
-                    break;
+                    
+                     agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                     ' Consulta sempre il tuo medico di fiducia');
+                     cardConsiglio.setButton({
+                         text: 'Contatta',
+                         url: 'https://www.paginegialle.it/nutrizionista.htm'
+                     });
+                     agent.add(cardConsiglio);
+                     agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
+                     break;
 
                 case 'spuntino dietetico' || 'snack dietetico'|| 'spuntino':
                     agent.add('Esempi di spuntini veloci e salutari possono essere: yogurt al naturale parzialmente scremato, un frutto e qualche fetta di '+
@@ -121,6 +166,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                     card3.setTitle('Frutta e formaggio'); 
                     card3.setImage('https://preview.ibb.co/kNzU0L/spundie2.jpg');
                     agent.add(card3);
+                    
+                    agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                     ' Consulta sempre il tuo medico di fiducia');
+                    cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                    });
+                    agent.add(cardConsiglio);
+                    agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)'); 
                     break;
 
                 default:
@@ -165,6 +219,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
         const zona1 = agent.parameters.zoneCorpo;
         const zona2 = agent.parameters.zoneCorpo1;
+        let cardConsiglio = new Card('CONTATTA UN ESPERTO');
 
         switch(zona1){
 
@@ -176,6 +231,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
                 
                 agent.add('per le gambe e i glutei ti consiglio di approfondire https://www.my-personaltrainer.it/allenamento/allenamento-femminile.html ');
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');                
                 break;
             
             case 'braccia' || 'braccio' || 'bicipite' || 'bicipiti' || 'tricipite' || 'tricipiti':
@@ -186,7 +249,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
 
                 agent.add('per il grasso in eccesso sulle braccia ti consiglio https://www.my-personaltrainer.it/allenamento-definizione.html ');
-            break;
+                
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');    
+                break;
 
             case 'addominali' || 'addominale' || 'addome' || 'pancia' || 'fianchi' || 'ventre':
                 agent.add('In generale, il grasso localizzato in eccesso non è un problema risolvibile soltanto con una dieta'+ 
@@ -196,6 +268,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 'le carni magre(pollo,tacchino),uova e i semi. Assumente i carboidrati ad assorbimento più lento, come le patate dolci,la farina d’avena e il riso integrale.');
 
                 agent.add('Per il grasso addominale si consigliano esercizi mirati come crunch. Per approndire https://www.my-personaltrainer.it/alimentazione/dimagrire-la-pancia.html');
+                
+                agent.add('Ricorda che questi sono semplici consigli che non sostituiscono un parere medico.'+ 
+                ' Consulta sempre il tuo medico di fiducia');
+                cardConsiglio.setButton({
+                    text: 'Contatta',
+                    url: 'https://www.paginegialle.it/nutrizionista.htm'
+                });
+                agent.add(cardConsiglio);
+                agent.add('Per qualsiasi altra informazione sono disponibile ad aiutarti ;)');
                 break;
             
             default:
@@ -387,28 +468,62 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
-    function dammiAlimento(agent){
-        const carota = agent.parameters.provaAlim;
-        var protCarota;
-        var prova = db.collection('alimenti').doc('bWKa5ZerSeSJ2ogiYVTl');
-         return prova.get()
-          .then(doc => {
-            if (!doc.exists) {
-                agent.add('documento inesistente');
-              return console.log('No such document!');
-            } else {
-                agent.add('le proteine sono '+ doc.data().nutrienti.proteine);
-                agent.add('le grassi sono '+ doc.data().nutrienti.grassi);
-              return console.log('nome: ', doc.data().nome);
-              
-            }
-          })
+        function dammiAlimento(agent){
+
+        const alimento = agent.parameters.alimenti;
+        let alimentociclato;
+        let proteineAlimento;
+        let categoriaAlimento;
+        let carboidratiAlimento;
+        let grassiAlimento;
+        var queryRef = db.collection('alimenti').where('nome', '==', alimento);
+         return queryRef.get()
+          .then((snapshot) => {
+              snapshot.forEach((doc) =>{
+            alimentociclato = doc.data().nome;
+            proteineAlimento = doc.data().nutrienti.proteine;
+            categoriaAlimento = doc.data().categoria;
+            carboidratiAlimento = doc.data().nutrienti.carboidrati;
+            
+            
+          });
+            agent.add(alimentociclato);
+            agent.add('poteine = ' + proteineAlimento);
+            agent.add('carboidrati = '+ carboidratiAlimento);
+            agent.add('categoria alimento = '+ categoriaAlimento);
+            
+            return console.log('errore');
+
+        })
+
           .catch(err => {
               agent.end('errore');
             return console.log('Error getting document', err);
           });
    
       }
+
+
+
+
+   /*   db.collection('users').get()
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch((err) => {
+    console.log('Error getting documents', err);
+  }); */
+
+
+
+
+
+
+
+
+
 
 
 
@@ -459,7 +574,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
-    intentMap.set('provaFirestore', dammiAlimento);
+    intentMap.set('3.1 ottieni_alimento', dammiAlimento);
 
     // intentMap.set('your intent name here', yourFunctionHandler);
     // intentMap.set('your intent name here', googleAssistantHandler);

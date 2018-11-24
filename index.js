@@ -471,7 +471,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
         function dammiAlimento(agent){
 
         const alimento = agent.parameters.alimenti;
-        let alimentociclato;
+        let nomeAlimento;
         let proteineAlimento;
         let categoriaAlimento;
         let carboidratiAlimento;
@@ -480,17 +480,19 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
          return queryRef.get()
           .then((snapshot) => {
               snapshot.forEach((doc) =>{
-            alimentociclato = doc.data().nome;
+            nomeAlimento = doc.data().nome;
             proteineAlimento = doc.data().nutrienti.proteine;
             categoriaAlimento = doc.data().categoria;
             carboidratiAlimento = doc.data().nutrienti.carboidrati;
+            grassiAlimento = doc.data().nutrienti.grassi;
             
             
           });
-            agent.add(alimentociclato);
-            agent.add('poteine = ' + proteineAlimento);
+            agent.add('Hai scelto '+ nomeAlimento);
+            agent.add('L\'alimento è nella categoria '+ categoriaAlimento+ ' ed ha i seguenti valori nutrizionali per 100g di prodotto');
             agent.add('carboidrati = '+ carboidratiAlimento);
-            agent.add('categoria alimento = '+ categoriaAlimento);
+            agent.add('grassi = '+ grassiAlimento);
+            agent.add('proteine = '+ proteineAlimento);
             
             return console.log('errore');
 

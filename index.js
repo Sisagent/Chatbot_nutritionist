@@ -488,11 +488,12 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
             
             
           });
+            
             agent.add('Hai scelto '+ nomeAlimento);
             agent.add('L\'alimento è nella categoria '+ categoriaAlimento+ ' ed ha i seguenti valori nutrizionali per 100g di prodotto');
-            agent.add('carboidrati = '+ carboidratiAlimento);
-            agent.add('grassi = '+ grassiAlimento);
-            agent.add('proteine = '+ proteineAlimento);
+            agent.add('carboidrati = '+ carboidratiAlimento + 'Kcal');
+            agent.add('grassi = '+ grassiAlimento + 'Kcal');
+            agent.add('proteine = '+ proteineAlimento + 'Kcal');
             
             return console.log('errore');
 

@@ -468,7 +468,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 
-        function dammiAlimento(agent){
+    function dammiAlimento(agent){
 
         var alimento = agent.parameters.alimenti;
         let url;
@@ -500,11 +500,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 agent.add('https://www.google.it/search?q=nutrienti+' + alimento);
 
             }else{
-            agent.add('Hai scelto '+ nomeAlimento);
-            agent.add('L\'alimento è nella categoria '+ categoriaAlimento+ ' ed ha i seguenti valori nutrizionali per 100g di prodotto');
-            agent.add('carboidrati = '+ carboidratiAlimento + 'Kcal');
-            agent.add('grassi = '+ grassiAlimento + 'Kcal');
-            agent.add('proteine = '+ proteineAlimento + 'Kcal');
+            agent.add('Ecco i valori nutrizionali per '+ nomeAlimento);
+            agent.add('L\'alimento '+ nomeAlimento + ' è nella categoria '+ categoriaAlimento+ ' ed ha i seguenti valori nutrizionali per 100g di prodotto ');
+            agent.add('carboidrati = '+ carboidratiAlimento + ' Kcal');
+            agent.add('grassi = '+ grassiAlimento + ' Kcal');
+            agent.add('proteine = '+ proteineAlimento + ' Kcal');
             }
             
             return console.log('errore_then');
